@@ -89,12 +89,11 @@ void CommandInterpreter::on(const std::string& cmd,
     CommandInterpreter& handler,
     const std::string& desc_short,
     const std::string& desc_long) {
-    on(cmd,
-        [&handler, desc_long, desc_short](argv_iterator& begin, argv_iterator& end) {
+    on(
+        cmd,
+        [&](argv_iterator& begin, argv_iterator& end) {
             if (begin == end) {
-                std::cout << "This command needs more arguments." << std::endl;
-                if (desc_long != "") std::cout << desc_long << std::endl;
-                return;
+                throw HandlerException("This command needs more arguments!");
             }
 
             handler.execute(*(begin++), begin, end);
@@ -116,6 +115,7 @@ void CommandInterpreter::execute(const std::string command,
 
         try {
             handler.fn(argv_begin, argv_end);
+            if (commandSuccessCb) commandSuccessCb(command);
         }
         catch (CommandInterpreter::HandlerException& e) {
             std::cerr << e.what() << std::endl;
@@ -155,6 +155,10 @@ void CommandInterpreter::promptUntilExit() {
 
 void CommandInterpreter::onPrompt(std::function<void()> cb) {
     onPromptCallback = cb;
+}
+
+void CommandInterpreter::onCommandSuccess(std::function<void(const std::string&)> cb) {
+    commandSuccessCb = cb;
 }
 
 CommandInterpreter::~CommandInterpreter() {}

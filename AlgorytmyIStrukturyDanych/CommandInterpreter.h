@@ -28,6 +28,7 @@ private:
     std::string prompt = "> ";
     handlerMap handlers;
     std::function<void()> onPromptCallback;
+    std::function<void(const std::string&)> commandSuccessCb;
 
     void printHelp(const std::string) const;
     void noHandlerError(const std::string) const;
@@ -63,6 +64,7 @@ public:
     bool promptOnce();
     void promptUntilExit();
     void onPrompt(std::function<void()> cb);
+    void onCommandSuccess(std::function<void(const std::string&)>);
 
     ~CommandInterpreter();
 };
