@@ -171,7 +171,7 @@ public:
 
     friend std::ostream& operator<<(std::ostream& out, const LinkedList<T>& l) {
         for (auto& value : l) {
-            out << "[ " << value << " ] ";
+            out << value << std::endl;
         }
         return out;
     };
