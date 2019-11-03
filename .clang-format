@@ -16,7 +16,7 @@ BinPackParameters: false
 AllowShortBlocksOnASingleLine: false
 AllowShortFunctionsOnASingleLine: Empty
 AllowShortIfStatementsOnASingleLine: true
-AllowShortLoopsOnASingleLine: false
+AllowShortLoopsOnASingleLine: true
 AlwaysBreakAfterDefinitionReturnType: false
 AlwaysBreakTemplateDeclarations: true
 AlwaysBreakAfterReturnType: None
@@ -24,12 +24,12 @@ AlwaysBreakBeforeMultilineStrings: false
 AccessModifierOffset: -4
 # SpaceBeforeCtorInitializerColon: false
 # SpaceBeforeInheritanceColon: false
+SpaceAfterTemplateKeyword: false
 
 BreakBeforeBraces: Custom
 BraceWrapping:
     AfterEnum: false
     AfterStruct: false
-    SplitEmptyFunction: false
     AfterControlStatement: false
     AfterFunction: false
     BeforeCatch: true
