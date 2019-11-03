@@ -2,7 +2,7 @@
 #include "LinkedList.h"
 #include <algorithm>
 
-template <typename T>
+template<typename T>
 class PriorityQueue {
     LinkedList<std::pair<int, T>> data;
 
@@ -16,7 +16,7 @@ public:
         auto end = data.end();
 
         for (; current != end; ++current) {
-            if ((*current).first < priority) break;
+            if (current->first < priority) break;
             previous = current;
         }
 
@@ -27,13 +27,13 @@ public:
         data.remove(data.size() - 1);
     }
 
-    unsigned size() const {
+    typename LinkedList<T>::size_type size() const {
         return data.size();
     }
 
     friend std::ostream& operator<<(std::ostream& out, const PriorityQueue<T>& q) {
         out << "in -> ";
-        for (auto el : q.data) {
+        for (const auto& el : q.data) {
             out << "(" << el.first << ")[ " << el.second << " ] ";
         }
         out << " -> out";

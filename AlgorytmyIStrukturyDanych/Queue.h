@@ -1,7 +1,7 @@
 #pragma once
 #include "LinkedList.h"
 
-template <typename T>
+template<typename T>
 class Queue {
     LinkedList<T> data;
 
@@ -21,14 +21,18 @@ public:
         data.remove(data.size() - 1);
     }
 
-    unsigned size() const {
+    typename LinkedList<T>::size_type size() const {
         return data.size();
     }
 
     ~Queue(){};
 
     friend std::ostream& operator<<(std::ostream& out, const Queue<T>& q) {
-        out << "in -> " << q.data << " -> out";
+        out << "in -> ";
+        for (const auto& el : q.data) {
+            out << "[ " << el << " ] ";
+        }
+        out << " -> out";
         return out;
     }
 };

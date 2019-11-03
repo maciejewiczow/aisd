@@ -2,7 +2,7 @@
 #include "LinkedList.h"
 #include <stack>
 
-template <typename T>
+template<typename T>
 class Stack {
     LinkedList<T> data;
 
@@ -26,14 +26,16 @@ public:
         return *data.begin();
     }
 
-    unsigned size() const {
+    typename LinkedList<T>::size_type size() const {
         return data.size();
     }
 
     ~Stack(){};
 
     friend std::ostream& operator<<(std::ostream& out, const Stack<T>& s) {
-        out << s.data;
+        for (const auto& el : s.data) {
+            out << "[ " << el << " ] ";
+        }
         return out;
     }
 };

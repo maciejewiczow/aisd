@@ -1,12 +1,13 @@
 #pragma once
 #include <iostream>
 
-template <typename T>
+template<typename T>
 class LinkedList {
     struct Node {
         Node* next;
         T value;
 
+        Node() : value(), next(nullptr){};
         Node(const T value) : value(value), next(nullptr){};
     };
 
@@ -15,14 +16,14 @@ class LinkedList {
 public:
     // STL container traits
     using value_type = T;
-    using size_type = unsigned;
+    using size_type = std::size_t;
     using reference = T&;
     using const_reference = const T&;
 
 private:
     size_type m_size;
 
-    template <bool is_const = true>
+    template<bool is_const = true>
     class Iterator {
         Node* current;
 
@@ -35,9 +36,21 @@ private:
         using reference = typename std::conditional<is_const, const T&, T&>::type;
 
         Iterator(Node* ptr) : current(ptr){};
+        Iterator(const Iterator<true>& other) : current(other.current){};
         Iterator(const Iterator<false>& other) : current(other.current){};
+        Iterator(Iterator&& other) : current(other.current){};
 
-        Iterator<is_const>& operator++() {
+        Iterator& operator=(const Iterator& other) {
+            current = other.current;
+            return *this;
+        }
+
+        Iterator& operator=(Iterator&& other) {
+            current = other.current;
+            return *this;
+        }
+
+        Iterator& operator++() {
             if (current) current = current->next;
             return *this;
         };
@@ -64,17 +77,26 @@ private:
             return current->value;
         }
 
-        reference operator->() {
-            return current->value;
+        pointer operator->() {
+            return &current->value;
         }
 
-        reference operator->() const {
-            return current->value;
+        pointer operator->() const {
+            return &current->value;
         }
 
         friend class Iterator<false>;
         friend class LinkedList<T>;
     };
+
+    void erase() {
+        while (head) {
+            Node* next = head->next;
+            delete head;
+            head = next;
+        }
+        m_size = 0;
+    }
 
 public:
     using iterator = Iterator<false>;
@@ -90,21 +112,45 @@ public:
         push_front(count, val);
     }
 
+    LinkedList(const LinkedList& other) {
+        std::copy(other.begin(), other.end(), std::front_inserter(*this));
+    }
+
+    LinkedList(LinkedList&& other) : head(other.head), m_size(other.m_size) {
+        other.head = nullptr;
+        other.m_size = 0;
+    }
+
+    LinkedList& operator=(const LinkedList& other) {
+        if (this == &other) return *this;
+
+        erase();
+
+        std::copy(other.begin(), other.end(), std::front_inserter(*this));
+
+        return *this;
+    }
+
+    LinkedList& operator=(LinkedList&& other) {
+        if (this == &other) return *this;
+
+        erase();
+
+        head = other.head;
+
+        return *this;
+    }
+
     ~LinkedList() {
-        while (head) {
-            Node* next = head->next;
-            delete head;
-            head = next;
-        }
+        erase();
     };
 
     size_type size() const {
         return m_size;
     }
 
-    void push_front(const std::size_t count, const value_type val) {
-        for (int i = 0; i < count; i++)
-            push_front(val);
+    void push_front(const std::size_t count, const T& val) {
+        for (std::size_t i = 0; i < count; i++) push_front(val);
     }
 
     void push_front(const std::initializer_list<T> values) {
@@ -118,6 +164,32 @@ public:
         head = tmp;
         m_size++;
     };
+
+    /* void push_back(const std::size_t count, const T& val) {
+        for (std::size_t i = 0; i < count; i++) push_back(val);
+    }
+
+    void push_back(const std::initializer_list<T>& vals) {
+        for (const auto& val : vals) push_back(val);
+    }
+
+    void push_back(const T& value) {
+        if (!head) {
+            // empty list, just push to front
+            push_front(value);
+            return;
+        }
+
+        if (last == begin()) {
+            for (int i = 0; i < static_cast<int>(m_size) - 1; i++) {
+                ++last;
+            }
+        }
+
+        insert(last, value);
+        ++last;
+    }
+    */
 
     iterator begin() {
         return iterator(head);
@@ -148,7 +220,7 @@ public:
         m_size++;
     }
 
-    void remove(const int index) {
+    void remove(const size_type index) {
         if (!head) return;
 
         Node* previous = nullptr;
@@ -167,12 +239,5 @@ public:
         m_size--;
         if (previous) previous->next = next;
         if (index == 0) head = next;
-    };
-
-    friend std::ostream& operator<<(std::ostream& out, const LinkedList<T>& l) {
-        for (auto& value : l) {
-            out << value << std::endl;
-        }
-        return out;
     };
 };
