@@ -1,4 +1,6 @@
 #include "CommandInterpreter.h"
+#include <algorithm>
+#include <iomanip>
 #include <iostream>
 #include <iterator>
 #include <sstream>
@@ -89,8 +91,7 @@ void CommandInterpreter::on(const std::string& cmd,
     CommandInterpreter& handler,
     const std::string& desc_short,
     const std::string& desc_long) {
-    on(
-        cmd,
+    on(cmd,
         [&](argv_iterator& begin, argv_iterator& end) {
             if (begin == end) {
                 throw HandlerException("This command needs more arguments!");
@@ -130,16 +131,22 @@ void CommandInterpreter::execute(const std::string command,
 bool CommandInterpreter::promptOnce() {
     if (onPromptCallback) onPromptCallback();
 
-    std::string command;
+    std::string input;
 
     std::cout << prompt;
-    getline(std::cin, command);
+    getline(std::cin, input);
 
-    if (command.size() == 0) return true; // skip to next command input
+    if (!input.size()) return true; // skip to next command if input is empty
 
-    std::stringstream cmd_stream(command);
-    std::remove_reference<argv_iterator>::type begin(cmd_stream);
-    std::remove_reference<argv_iterator>::type end;
+    std::stringstream argv_stream(input);
+    std::vector<std::string> argv;
+
+    for (std::string token; argv_stream >> std::quoted(token);) {
+        argv.push_back(token);
+    }
+
+    std::vector<std::string>::const_iterator begin(argv.begin());
+    std::vector<std::string>::const_iterator end(argv.end());
 
     const std::string command_name = *(begin++);
 

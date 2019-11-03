@@ -11,7 +11,7 @@ public:
 
     // does not work with const string - no idea why
     // TODO: find out why
-    using argv_iterator = std::istream_iterator<std::string>&;
+    using argv_iterator = std::vector<std::string>::const_iterator&;
     using callback = std::function<void(argv_iterator argv_begin, argv_iterator argv_end)>;
 
     struct Handler {
