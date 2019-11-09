@@ -59,13 +59,13 @@ static inline void printClubs(const LinkedList<Record>& list) {
     std::map<std::string, unsigned> member_counts;
 
     for (const auto& element : list) {
-        auto it = member_counts.find(element.club);
+        auto iterator = member_counts.find(element.club);
 
-        if (it == member_counts.end()) {
+        if (iterator == member_counts.end()) {
             member_counts.insert({element.club, 1});
         }
         else {
-            it->second++;
+            iterator->second++;
         }
     }
 
@@ -78,34 +78,30 @@ static inline void printClubs(const LinkedList<Record>& list) {
 }
 
 static inline void printByYear(const LinkedList<Record>& list, unsigned year) {
-    auto it =
+    auto result =
         std::find_if(list.begin(), list.end(), [year](const Record& r) { return r.year == year; });
 
-    if (it != list.end())
-        std::cout << *it << std::endl;
+    if (result != list.end())
+        std::cout << *result << std::endl;
     else
         std::cout << "Nothin'" << std::endl;
 }
 
-static inline void ltrim(std::string& s) {
+static inline void trim(std::string& s) {
+    // trim left
     s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) { return !std::isspace(ch); }));
-}
 
-static inline void rtrim(std::string& s) {
+    // trim right
     s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) { return !std::isspace(ch); }).base(),
         s.end());
-}
-
-static inline void trim(std::string& s) {
-    ltrim(s);
-    rtrim(s);
 }
 
 void loadFromFile(LinkedList<Record>& list, const char* filename) {
     std::ifstream file(filename);
 
     if (!file) {
-        std::cerr << "Could not open the file";
+        std::cerr << "Could not open the file" << std::endl;
+        return;
     }
 
     std::string line;
