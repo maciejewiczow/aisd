@@ -1,5 +1,5 @@
 ﻿#include "main.h"
 
 int main() {
-    return mainZaj3();
+    return mainZaj4();
 }

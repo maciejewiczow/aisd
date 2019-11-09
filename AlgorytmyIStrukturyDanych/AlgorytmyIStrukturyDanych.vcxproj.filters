@@ -27,6 +27,9 @@
     <ClCompile Include="mainZaj3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mainZaj4.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LinkedList.h">
@@ -47,9 +50,15 @@
     <ClInclude Include="main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Tree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\data3.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="data\lista.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
