@@ -57,7 +57,7 @@ private:
 
         Iterator operator++(int) {
             Iterator temp(*this);
-            current = current->next;
+            if (current) current = current->next;
             return temp;
         };
 
