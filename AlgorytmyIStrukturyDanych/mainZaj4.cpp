@@ -1,4 +1,4 @@
-#include <cmath>
+#include <fstream>
 #include <iostream>
 #include <string>
 
@@ -6,20 +6,38 @@
 #include "main.h"
 
 int mainZaj4() {
-    Tree<std::string> tr;
+    Tree<int> tr;
 
-    tr.addRootNode("root");
+    std::fstream file("./data/lista.txt");
 
-    tr.getRoot()->addLeft("A");
-    tr.getRoot()->addRight("B");
+    if (!file) {
+        std::cerr << "Could not open the file" << std::endl;
+        return -1;
+    }
 
-    tr.getRoot()->left->addLeft("C");
-    tr.getRoot()->left->addRight("D");
+    int item;
+    file >> item;
+    tr.addRootNode(item);
 
-    tr.getRoot()->right->addLeft("E");
-    tr.getRoot()->right->addRight("F");
+    tr.traversePreorder([&](Tree<int>::Node& n, unsigned level) {
+        static bool goright = false;
 
-    tr.traversePostorder([](Tree<std::string>::Node& n, unsigned level) {
+        if (!file.eof()) {
+            int item;
+            file >> item;
+
+            if (goright) {
+                n.addRight(item);
+                goright = false;
+            }
+            else {
+                n.addLeft(item);
+                goright = true;
+            }
+        }
+    });
+
+    tr.traverseInorder([](Tree<int>::Node& n, unsigned level) {
         for (unsigned i = 0; i < level; i++) {
             std::cout << "    ";
         }
