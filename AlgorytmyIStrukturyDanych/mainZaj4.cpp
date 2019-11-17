@@ -1,4 +1,4 @@
-#include <cmath>
+﻿#include <fstream>
 #include <iostream>
 #include <string>
 
@@ -6,23 +6,57 @@
 #include "main.h"
 
 int mainZaj4() {
-    Tree<std::string> tr;
+    // std::fstream file("./data/lista.txt");
 
-    tr.addRootNode("root");
+    /*if (!file) {
+        std::cerr << "Could not open the file" << std::endl;
+        return -1;
+    }
 
-    tr.getRoot()->addLeft("A");
-    tr.getRoot()->addRight("B");
+    int item;
+    file >> item;
+    dżewo.addRootNode(item);
 
-    tr.getRoot()->left->addLeft("C");
-    tr.getRoot()->left->addRight("D");
+    while (!file.eof()) {
+        file >> item;
+    }*/
 
-    tr.getRoot()->right->addLeft("E");
-    tr.getRoot()->right->addRight("F");
+    tree::basic_tree<std::string> dżewo;
+    dżewo.addRootNode("root");
 
-    tr.traversePostorder([](Tree<std::string>::Node& n, unsigned level) {
+    auto root = dżewo.getRoot();
+
+    root->add_left("A");
+    root->add_right("B");
+
+    root->left->add_left("C");
+    root->left->left->add_left("E");
+    root->left->left->left->add_left("e");
+    root->left->left->left->add_right("f");
+    root->left->left->left->right->add_right("g");
+    root->left->left->left->right->right->add_left("p");
+    root->left->left->left->right->right->left->add_left("a");
+    root->left->left->left->right->right->left->left->add_left("p");
+    root->left->left->left->right->right->left->left->left->add_left("i");
+    root->left->left->left->right->right->left->left->left->left->add_left("e");
+    root->left->left->left->right->right->left->left->left->left->left->add_left("rz");
+    root->left->left->left->right->right->add_right("h");
+    root->left->add_right("D");
+    root->left->right->add_right("DD");
+
+    root->right->add_left("E");
+    root->right->add_right("F");
+
+    dżewo.set_traversal_mode(tree::traversal_mode::in_order);
+
+    /*for (auto it = dżewo.begin(), end = dżewo.end(); it != end; ++it) {
+    }*/
+
+    dżewo.traverse([&](auto& n, unsigned level) {
         for (unsigned i = 0; i < level; i++) {
             std::cout << "    ";
         }
+
         std::cout << n.value << std::endl;
     });
 
