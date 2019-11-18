@@ -30,6 +30,9 @@
     <ClCompile Include="mainZaj4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mainZaj5.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LinkedList.h">
@@ -47,10 +50,10 @@
     <ClInclude Include="PriorityQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="main.h">
+    <ClInclude Include="Tree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tree.h">
+    <ClInclude Include="BST.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

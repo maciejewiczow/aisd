@@ -157,11 +157,12 @@
     <ClCompile Include="mainzaj2.cpp" />
     <ClCompile Include="mainZaj3.cpp" />
     <ClCompile Include="mainZaj4.cpp" />
+    <ClCompile Include="mainZaj5.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BST.h" />
     <ClInclude Include="CommandInterpreter.h" />
     <ClInclude Include="LinkedList.h" />
-    <ClInclude Include="main.h" />
     <ClInclude Include="PriorityQueue.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="Stack.h" />
