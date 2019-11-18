@@ -1,9 +1,10 @@
+#include <cstdlib>
+#include <ctime>
 #include <fstream>
 #include <iostream>
 #include <string>
 
 #include "Tree.h"
-#include "main.h"
 
 int mainZaj4() {
     Tree<int> tr;
@@ -19,20 +20,20 @@ int mainZaj4() {
     file >> item;
     tr.addRootNode(item);
 
+    std::srand(static_cast<unsigned>(std::time(0)));
+
     tr.traversePreorder([&](Tree<int>::Node& n, unsigned level) {
-        static bool goright = false;
+        bool goRight = std::rand() % 2;
 
         if (!file.eof()) {
             int item;
             file >> item;
 
-            if (goright) {
+            if (goRight) {
                 n.addRight(item);
-                goright = false;
             }
             else {
                 n.addLeft(item);
-                goright = true;
             }
         }
     });
