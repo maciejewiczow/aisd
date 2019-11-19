@@ -138,9 +138,8 @@ namespace tree {
                     // we are a right child
                     if (current->parent->right == current) {
                         // go up until next left turn
-                        Node* parent = nullptr;
                         while (tmp && tmp->parent->right == tmp) {
-                            parent = tmp->parent;
+                            tmp = tmp->parent;
                         }
                         tmp = tmp->parent;
                         // then find next node with a right child
