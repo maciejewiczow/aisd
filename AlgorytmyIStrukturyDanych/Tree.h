@@ -112,7 +112,7 @@ namespace tree {
                 if (mode == traversal_mode::pre_order) return;
 
                 // else we start at the leftmost node
-                while (current && current->left) {
+                while (current->left) {
                     current = current->left;
                 }
             }
@@ -137,17 +137,22 @@ namespace tree {
 
                     // we are a right child
                     if (current->parent->right == current) {
-                        while (
-                            tmp && (tmp->parent->right == tmp || tmp->parent->right == nullptr)) {
+                        // go up until next left turn
+                        Node* parent = nullptr;
+                        while (tmp && tmp->parent->right == tmp) {
+                            parent = tmp->parent;
+                        }
+                        tmp = tmp->parent;
+                        // then find next node with a right child
+                        while (tmp && !tmp->right) {
                             tmp = tmp->parent;
                         }
-                        while (tmp && (tmp->parent->right == tmp || !tmp->right)) {
-                            tmp = tmp->parent;
-                        }
+
                         return tmp->right;
                     }
                 }
             }
+            // TODO: implement post and in-order
             Node* next_inorder() {
                 return nullptr;
             }
@@ -175,10 +180,10 @@ namespace tree {
 
             Iterator() : current(nullptr) {}
             Iterator(Node* ptr) : current(ptr) {
-                init();
+                if (current) init();
             }
             Iterator(Node* ptr, traversal_mode mode) : current(ptr), mode(mode) {
-                init();
+                if (current) init();
             }
             Iterator(traversal_mode mode) : current(nullptr), mode(mode) {}
             ~Iterator() {}
@@ -199,16 +204,15 @@ namespace tree {
                 return *this;
             }
 
-            // custom logic needs to be implemented for next and prev node
             Iterator& operator++() {
                 switch (mode) {
-                    case tree::traversal_mode::pre_order:
+                    case traversal_mode::pre_order:
                         current = next_preorder();
                         break;
-                    case tree::traversal_mode::in_order:
+                    case traversal_mode::in_order:
                         current = next_inorder();
                         break;
-                    case tree::traversal_mode::post_order:
+                    case traversal_mode::post_order:
                         current = next_postorder();
                         break;
                 }
@@ -216,31 +220,22 @@ namespace tree {
                 return *this;
             };
             Iterator operator++(int) {
-                Iterator copy(*this);
+                Iterator copy{*this};
 
-                switch (mode) {
-                    case tree::traversal_mode::pre_order:
-                        current = next_preorder();
-                        break;
-                    case tree::traversal_mode::in_order:
-                        current = next_inorder();
-                        break;
-                    case tree::traversal_mode::post_order:
-                        current = next_postorder();
-                        break;
-                }
+                this->operator++();
 
                 return copy;
             };
+
             Iterator& operator--() {
                 switch (mode) {
-                    case tree::traversal_mode::pre_order:
+                    case traversal_mode::pre_order:
                         current = prev_preorder();
                         break;
-                    case tree::traversal_mode::in_order:
+                    case traversal_mode::in_order:
                         current = prev_inorder();
                         break;
-                    case tree::traversal_mode::post_order:
+                    case traversal_mode::post_order:
                         current = prev_postorder();
                         break;
                 }
@@ -248,28 +243,18 @@ namespace tree {
                 return *this;
             };
             Iterator operator--(int) {
-                Iterator copy(*this);
+                Iterator copy{*this};
 
-                switch (mode) {
-                    case tree::traversal_mode::pre_order:
-                        current = prev_preorder();
-                        break;
-                    case tree::traversal_mode::in_order:
-                        current = prev_inorder();
-                        break;
-                    case tree::traversal_mode::post_order:
-                        current = prev_postorder();
-                        break;
-                }
+                this->operator--();
 
                 return copy;
             };
 
-            bool operator==(const Iterator& rhs) {
+            bool operator==(const Iterator& rhs) const {
                 return current == rhs.current;
             }
 
-            bool operator!=(const Iterator& rhs) {
+            bool operator!=(const Iterator& rhs) const {
                 return current != rhs.current;
             }
 
@@ -305,19 +290,19 @@ namespace tree {
         using const_iterator = Iterator<true>;
 
         iterator begin() {
-            return iterator(root, mode);
+            return iterator{root, mode};
         }
 
         const_iterator begin() const {
-            return const_iterator(root, mode);
+            return const_iterator{root, mode};
         }
 
         iterator end() {
-            return iterator(nullptr, mode);
+            return iterator{nullptr, mode};
         }
 
         const_iterator end() const {
-            return const_iterator(nullptr, mode);
+            return const_iterator{nullptr, mode};
         }
     };
 } // namespace tree

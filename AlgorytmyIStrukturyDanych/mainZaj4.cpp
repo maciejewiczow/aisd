@@ -34,12 +34,12 @@ int mainZaj4() {
     root->left->left->left->add_left("e");
     root->left->left->left->add_right("f");
     root->left->left->left->right->add_right("g");
-    root->left->left->left->right->right->add_left("p");
-    root->left->left->left->right->right->left->add_left("a");
-    root->left->left->left->right->right->left->left->add_left("p");
-    root->left->left->left->right->right->left->left->left->add_left("i");
-    root->left->left->left->right->right->left->left->left->left->add_left("e");
-    root->left->left->left->right->right->left->left->left->left->left->add_left("rz");
+    root->left->left->left->right->right->add_left("u");
+    root->left->left->left->right->right->left->add_left("w");
+    root->left->left->left->right->right->left->left->add_left("a");
+    root->left->left->left->right->right->left->left->left->add_left("g");
+    root->left->left->left->right->right->left->left->left->left->add_left("a");
+    root->left->left->left->right->right->left->left->left->left->left->add_left("aa");
     root->left->left->left->right->right->add_right("h");
     root->left->add_right("D");
     root->left->right->add_right("DD");
@@ -47,10 +47,10 @@ int mainZaj4() {
     root->right->add_left("E");
     root->right->add_right("F");
 
-    dżewo.set_traversal_mode(tree::traversal_mode::in_order);
+    dżewo.set_traversal_mode(tree::traversal_mode::pre_order);
 
-    /*for (auto it = dżewo.begin(), end = dżewo.end(); it != end; ++it) {
-    }*/
+    for (auto it = dżewo.begin(), end = dżewo.end(); it != end; ++it) {
+    }
 
     dżewo.traverse([&](auto& n, unsigned level) {
         for (unsigned i = 0; i < level; i++) {
