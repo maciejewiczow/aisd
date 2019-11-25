@@ -6,21 +6,6 @@
 #include "main.h"
 
 int mainZaj4() {
-    // std::fstream file("./data/lista.txt");
-
-    /*if (!file) {
-        std::cerr << "Could not open the file" << std::endl;
-        return -1;
-    }
-
-    int item;
-    file >> item;
-    dżewo.addRootNode(item);
-
-    while (!file.eof()) {
-        file >> item;
-    }*/
-
     tree::basic_tree<std::string> dżewo;
     dżewo.addRootNode("root");
 
@@ -47,18 +32,14 @@ int mainZaj4() {
     root->right->add_left("E");
     root->right->add_right("F");
 
-    dżewo.set_traversal_mode(tree::traversal_mode::pre_order);
+    dżewo.set_traversal_mode(tree::traversal_mode::post_order);
+    dżewo.traverse([&](auto& n, unsigned level) { std::cout << n.value << " "; });
 
-    for (auto it = dżewo.begin(), end = dżewo.end(); it != end; ++it) {
+    std::cout << std::endl;
+
+    for (const auto& val : dżewo) {
+        std::cout << val << " ";
     }
-
-    dżewo.traverse([&](auto& n, unsigned level) {
-        for (unsigned i = 0; i < level; i++) {
-            std::cout << "    ";
-        }
-
-        std::cout << n.value << std::endl;
-    });
 
     return 0;
 }
