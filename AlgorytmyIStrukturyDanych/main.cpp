@@ -2,7 +2,8 @@
 int mainZaj3();
 int mainZaj4();
 int mainZaj5();
+int mainZaj6();
 
 int main() {
-    return mainZaj5();
+    return mainZaj6();
 }

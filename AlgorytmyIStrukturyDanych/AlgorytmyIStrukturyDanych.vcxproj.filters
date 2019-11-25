@@ -33,6 +33,9 @@
     <ClCompile Include="mainZaj5.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mainZaj6.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LinkedList.h">

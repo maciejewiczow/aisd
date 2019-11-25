@@ -158,6 +158,7 @@
     <ClCompile Include="mainZaj3.cpp" />
     <ClCompile Include="mainZaj4.cpp" />
     <ClCompile Include="mainZaj5.cpp" />
+    <ClCompile Include="mainZaj6.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BST.h" />
