@@ -107,16 +107,6 @@ namespace tree {
             Node* current;
             traversal_mode mode;
 
-            void init() {
-                // in preorder we start at the root
-                if (mode == traversal_mode::pre_order) return;
-
-                // else we start at the leftmost node
-                while (current->left) {
-                    current = current->left;
-                }
-            }
-
             Node* next_preorder() {
                 if (!current) return nullptr;
 
@@ -138,10 +128,14 @@ namespace tree {
                     // we are a right child
                     if (current->parent->right == current) {
                         // go up until next left turn
-                        while (tmp && tmp->parent->right == tmp) {
+                        while (tmp->parent && tmp->parent->right == tmp) {
                             tmp = tmp->parent;
                         }
+
+                        if (!tmp->parent) return nullptr;
+
                         tmp = tmp->parent;
+
                         // then find next node with a right child
                         while (tmp && !tmp->right) {
                             tmp = tmp->parent;
@@ -153,7 +147,26 @@ namespace tree {
             }
             // TODO: implement post and in-order
             Node* next_inorder() {
-                return nullptr;
+                if (!current) return nullptr;
+
+                if (current->right) {
+                    Node* tmp = current->right;
+
+                    while (tmp->left) {
+                        tmp = tmp->left;
+                    }
+
+                    return tmp;
+                }
+
+                Node* tmp = current->parent;
+
+                while (tmp && current == tmp->right) {
+                    current = tmp;
+                    tmp = tmp->parent;
+                }
+
+                return tmp;
             }
             Node* next_postorder() {
                 return nullptr;
@@ -162,9 +175,30 @@ namespace tree {
             Node* prev_preorder() {
                 return nullptr;
             }
+
             Node* prev_inorder() {
-                return nullptr;
+                if (!current) return nullptr;
+
+                if (current->left) {
+                    Node* tmp = current->left;
+
+                    while (tmp->right) {
+                        tmp = tmp->right;
+                    }
+
+                    return tmp;
+                }
+
+                Node* tmp = current->parent;
+
+                while (tmp && current == tmp->left) {
+                    current = tmp;
+                    tmp = tmp->parent;
+                }
+
+                return tmp;
             }
+
             Node* prev_postorder() {
                 return nullptr;
             }
@@ -178,12 +212,8 @@ namespace tree {
             using reference = typename std::conditional<is_const, const T&, T&>::type;
 
             Iterator() : current(nullptr) {}
-            Iterator(Node* ptr) : current(ptr) {
-                if (current) init();
-            }
-            Iterator(Node* ptr, traversal_mode mode) : current(ptr), mode(mode) {
-                if (current) init();
-            }
+            Iterator(Node* ptr) : current(ptr) {}
+            Iterator(Node* ptr, traversal_mode mode) : current(ptr), mode(mode) {}
             Iterator(traversal_mode mode) : current(nullptr), mode(mode) {}
             ~Iterator() {}
 
@@ -284,24 +314,136 @@ namespace tree {
             friend class Iterator<false>;
         };
 
+        template<bool is_const = true>
+        class ReverseIterator : public Iterator<is_const> {
+            using super = Iterator<is_const>;
+
+        public:
+            ReverseIterator() : super() {}
+            ReverseIterator(Node* ptr) : super(ptr) {}
+            ReverseIterator(Node* ptr, traversal_mode mode) : super(ptr, mode) {}
+            ReverseIterator(traversal_mode mode) : super(mode) {}
+            ~ReverseIterator() {}
+
+            // these ctors and assignments permit conversion from non-const to const iterator
+            ReverseIterator(const ReverseIterator<false>& other) : Iterator<false>(other.it) {}
+            ReverseIterator(ReverseIterator<false>&& other) : Iterator<false>(other.it) {}
+
+            ReverseIterator& operator=(const ReverseIterator<false>& rhs) {
+                super::operator=(rhs.super);
+                return *this;
+            }
+
+            Iterator& operator=(Iterator<false>&& rhs) {
+                super::operator=(rhs.super);
+                return *this;
+            }
+
+            ReverseIterator& operator++() {
+                super::operator--();
+
+                return *this;
+            };
+            ReverseIterator operator++(int) {
+                ReverseIterator copy{*this};
+
+                super::operator--();
+
+                return copy;
+            };
+
+            Iterator& operator--() {
+                super::operator++();
+
+                return *this;
+            };
+            Iterator operator--(int) {
+                ReverseIterator copy{*this};
+
+                super::operator++();
+
+                return copy;
+            };
+
+            friend class ReverseIterator<false>;
+        };
+
+        template<typename iter_T>
+        iter_T make_iterator() {
+            Node* start_node = root;
+
+            if (mode == traversal_mode::in_order || mode == traversal_mode::post_order)
+                while (start_node->left) {
+                    start_node = start_node->left;
+                }
+
+            return iter_T{start_node, mode};
+        }
+
+        template<typename iter_T>
+        iter_T make_reverse_iterator() {
+            Node* start_node = root;
+
+            if (mode == traversal_mode::in_order || mode == traversal_mode::post_order)
+                while (start_node->right) {
+                    start_node = start_node->right;
+                }
+
+            return iter_T{start_node, mode};
+        }
+
     public:
         using iterator = Iterator<false>;
         using const_iterator = Iterator<true>;
+        using reverse_iterator = ReverseIterator<false>;
+        using const_reverse_iterator = ReverseIterator<true>;
 
-        iterator begin() {
-            return iterator{root, mode};
+        iterator begin() noexcept {
+            return make_iterator<iterator>();
         }
 
-        const_iterator begin() const {
-            return const_iterator{root, mode};
+        const_iterator begin() const noexcept {
+            return make_iterator<const_iterator>();
         }
 
-        iterator end() {
+        iterator end() noexcept {
             return iterator{nullptr, mode};
         }
 
-        const_iterator end() const {
+        const_iterator end() const noexcept {
             return const_iterator{nullptr, mode};
+        }
+
+        reverse_iterator rbegin() noexcept {
+            return make_reverse_iterator<reverse_iterator>();
+        }
+
+        const_reverse_iterator rbegin() const noexcept {
+            return make_reverse_iterator<const_reverse_iterator>();
+        }
+
+        reverse_iterator rend() noexcept {
+            return reverse_iterator{nullptr, mode};
+        }
+
+        const_reverse_iterator rend() const noexcept {
+            return const_reverse_iterator{nullptr, mode};
+        }
+
+        const_iterator cbegin() const noexcept {
+            return make_iterator<const_iterator>();
+        }
+
+        const_iterator cend() const noexcept {
+            return const_iterator{nullptr, mode};
+        }
+
+        const_reverse_iterator crbegin() const noexcept {
+            return make_reverse_iterator<const_reverse_iterator>();
+        }
+
+        const_reverse_iterator crend() const noexcept {
+            return const_reverse_iterator{nullptr, mode};
         }
     };
 } // namespace tree
