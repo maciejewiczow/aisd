@@ -1,4 +1,5 @@
 #include <functional>
+#include <iterator>
 #include <memory>
 #include <string>
 
@@ -145,7 +146,6 @@ namespace tree {
                     }
                 }
             }
-            // TODO: implement post and in-order
             Node* next_inorder() {
                 if (!current) return nullptr;
 
@@ -168,12 +168,13 @@ namespace tree {
 
                 return tmp;
             }
+            // TODO: implement post order
             Node* next_postorder() {
                 return nullptr;
             }
 
             Node* prev_preorder() {
-                return nullptr;
+                if (!current) return nullptr;
             }
 
             Node* prev_inorder() {
@@ -314,60 +315,6 @@ namespace tree {
             friend class Iterator<false>;
         };
 
-        template<bool is_const = true>
-        class ReverseIterator : public Iterator<is_const> {
-            using super = Iterator<is_const>;
-
-        public:
-            ReverseIterator() : super() {}
-            ReverseIterator(Node* ptr) : super(ptr) {}
-            ReverseIterator(Node* ptr, traversal_mode mode) : super(ptr, mode) {}
-            ReverseIterator(traversal_mode mode) : super(mode) {}
-            ~ReverseIterator() {}
-
-            // these ctors and assignments permit conversion from non-const to const iterator
-            ReverseIterator(const ReverseIterator<false>& other) : Iterator<false>(other.it) {}
-            ReverseIterator(ReverseIterator<false>&& other) : Iterator<false>(other.it) {}
-
-            ReverseIterator& operator=(const ReverseIterator<false>& rhs) {
-                super::operator=(rhs.super);
-                return *this;
-            }
-
-            Iterator& operator=(Iterator<false>&& rhs) {
-                super::operator=(rhs.super);
-                return *this;
-            }
-
-            ReverseIterator& operator++() {
-                super::operator--();
-
-                return *this;
-            };
-            ReverseIterator operator++(int) {
-                ReverseIterator copy{*this};
-
-                super::operator--();
-
-                return copy;
-            };
-
-            Iterator& operator--() {
-                super::operator++();
-
-                return *this;
-            };
-            Iterator operator--(int) {
-                ReverseIterator copy{*this};
-
-                super::operator++();
-
-                return copy;
-            };
-
-            friend class ReverseIterator<false>;
-        };
-
         template<typename iter_T>
         iter_T make_iterator() {
             Node* start_node = root;
@@ -381,7 +328,7 @@ namespace tree {
         }
 
         template<typename iter_T>
-        iter_T make_reverse_iterator() {
+        std::reverse_iterator<iter_T> make_reverse_iterator() {
             Node* start_node = root;
 
             if (mode == traversal_mode::in_order || mode == traversal_mode::post_order)
@@ -389,14 +336,14 @@ namespace tree {
                     start_node = start_node->right;
                 }
 
-            return iter_T{start_node, mode};
+            return std::make_reverse_iterator(iter_T{start_node, mode});
         }
 
     public:
         using iterator = Iterator<false>;
         using const_iterator = Iterator<true>;
-        using reverse_iterator = ReverseIterator<false>;
-        using const_reverse_iterator = ReverseIterator<true>;
+        using reverse_iterator = std::reverse_iterator<Iterator<false>>;
+        using const_reverse_iterator = std::reverse_iterator<Iterator<true>>;
 
         iterator begin() noexcept {
             return make_iterator<iterator>();
@@ -415,11 +362,11 @@ namespace tree {
         }
 
         reverse_iterator rbegin() noexcept {
-            return make_reverse_iterator<reverse_iterator>();
+            return make_reverse_iterator<iterator>();
         }
 
         const_reverse_iterator rbegin() const noexcept {
-            return make_reverse_iterator<const_reverse_iterator>();
+            return make_reverse_iterator<const_iterator>();
         }
 
         reverse_iterator rend() noexcept {

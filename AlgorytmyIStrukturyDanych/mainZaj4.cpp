@@ -32,14 +32,19 @@ int mainZaj4() {
     root->right->add_left("E");
     root->right->add_right("F");
 
-    dżewo.set_traversal_mode(tree::traversal_mode::post_order);
-    dżewo.traverse([&](auto& n, unsigned level) { std::cout << n.value << " "; });
+    auto print_in_row = [](auto& n, unsigned level) { std::cout << n.value << " "; };
 
+    dżewo.set_traversal_mode(tree::traversal_mode::pre_order);
+    dżewo.traverse(print_in_row);
     std::cout << std::endl;
 
-    for (const auto& val : dżewo) {
+    dżewo.set_traversal_mode(tree::traversal_mode::post_order);
+    dżewo.traverse(print_in_row);
+    std::cout << std::endl;
+
+    /*for (const auto& val : dżewo) {
         std::cout << val << " ";
-    }
+    }*/
 
     return 0;
 }
