@@ -36,6 +36,9 @@
     <ClCompile Include="mainZaj6.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mainZaj7.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LinkedList.h">
@@ -57,6 +60,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BST.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="max_heap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

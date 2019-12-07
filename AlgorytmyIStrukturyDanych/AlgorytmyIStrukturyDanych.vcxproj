@@ -159,10 +159,12 @@
     <ClCompile Include="mainZaj4.cpp" />
     <ClCompile Include="mainZaj5.cpp" />
     <ClCompile Include="mainZaj6.cpp" />
+    <ClCompile Include="mainZaj7.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BST.h" />
     <ClInclude Include="CommandInterpreter.h" />
+    <ClInclude Include="max_heap.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="PriorityQueue.h" />
     <ClInclude Include="Queue.h" />
