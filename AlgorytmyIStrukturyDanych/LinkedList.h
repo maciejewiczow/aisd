@@ -36,6 +36,7 @@ private:
         using reference = typename std::conditional<is_const, const T&, T&>::type;
 
         Iterator(Node* ptr) : current(ptr){};
+        Iterator(const LinkedList& list) : current(list.head){};
         Iterator(const Iterator<true>& other) : current(other.current){};
         Iterator(const Iterator<false>& other) : current(other.current){};
         Iterator(Iterator&& other) : current(other.current){};
