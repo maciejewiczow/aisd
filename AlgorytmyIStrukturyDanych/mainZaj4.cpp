@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-#include "Tree.h"
+#include "basic_tree.h"
 
 int mainZaj4() {
     tree::basic_tree<int> tr;

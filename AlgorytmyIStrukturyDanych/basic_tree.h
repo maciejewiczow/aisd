@@ -28,14 +28,25 @@ namespace tree {
             Node() : value(), left(nullptr), right(nullptr), parent(nullptr) {}
             Node(const_reference val)
                 : value(val), left(nullptr), right(nullptr), parent(nullptr) {}
+            Node(T&& val) : value(std::move(val)), left(nullptr), right(nullptr), parent(nullptr) {}
 
             void add_left(const_reference value) {
                 left = new Node(value);
                 left->parent = this;
             }
 
+            void add_left(Node* ptr) {
+                left = ptr;
+                ptr->parent = this;
+            }
+
             void add_right(const_reference value) {
                 right = new Node(value);
+                right->parent = this;
+            }
+
+            void add_right(Node* ptr) {
+                right = ptr;
                 right->parent = this;
             }
 

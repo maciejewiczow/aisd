@@ -160,16 +160,17 @@
     <ClCompile Include="mainZaj5.cpp" />
     <ClCompile Include="mainZaj6.cpp" />
     <ClCompile Include="mainZaj7.cpp" />
+    <ClCompile Include="mainZaj8.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BST.h" />
     <ClInclude Include="CommandInterpreter.h" />
-    <ClInclude Include="max_heap.h" />
+    <ClInclude Include="heap.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="PriorityQueue.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="Stack.h" />
-    <ClInclude Include="Tree.h" />
+    <ClInclude Include="basic_tree.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\data3.txt" />

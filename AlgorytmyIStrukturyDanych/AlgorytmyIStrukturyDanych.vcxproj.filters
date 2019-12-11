@@ -39,6 +39,9 @@
     <ClCompile Include="mainZaj7.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mainZaj8.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LinkedList.h">
@@ -56,13 +59,13 @@
     <ClInclude Include="PriorityQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tree.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BST.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="max_heap.h">
+    <ClInclude Include="heap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_tree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
