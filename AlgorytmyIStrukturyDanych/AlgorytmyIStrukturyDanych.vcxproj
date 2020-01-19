@@ -156,6 +156,8 @@
   <ItemGroup>
     <ClCompile Include="CommandInterpreter.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mainZaj10.cpp" />
+    <ClCompile Include="mainZaj11.cpp" />
     <ClCompile Include="mainzaj2.cpp" />
     <ClCompile Include="mainZaj3.cpp" />
     <ClCompile Include="mainZaj4.cpp" />
@@ -163,10 +165,12 @@
     <ClCompile Include="mainZaj6.cpp" />
     <ClCompile Include="mainZaj7.cpp" />
     <ClCompile Include="mainZaj8.cpp" />
+    <ClCompile Include="mainZaj9.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BST.h" />
     <ClInclude Include="CommandInterpreter.h" />
+    <ClInclude Include="graph.h" />
     <ClInclude Include="heap.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="PriorityQueue.h" />
@@ -177,6 +181,7 @@
   <ItemGroup>
     <Text Include="data\data3.txt" />
     <Text Include="data\lista.txt" />
+    <Text Include="test_graf.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="records.csv" />

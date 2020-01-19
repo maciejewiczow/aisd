@@ -42,6 +42,15 @@
     <ClCompile Include="mainZaj8.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mainZaj9.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mainZaj10.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mainZaj11.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LinkedList.h">
@@ -68,12 +77,18 @@
     <ClInclude Include="basic_tree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="graph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\data3.txt">
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="data\lista.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="test_graf.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
