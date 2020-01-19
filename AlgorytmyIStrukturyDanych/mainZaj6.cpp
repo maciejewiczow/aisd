@@ -31,12 +31,6 @@ std::vector<typename iter_T::value_type> merge(const iter_T begin,
     iter_T left{begin};
     iter_T right{middle};
 
-    std::cout << "MERGE left range: ";
-    print_range(begin, middle);
-
-    std::cout << "MERGE right range: ";
-    print_range(middle, end);
-
     while (left != middle && right != end) {
         if (comparator(*left, *right))
             buffer.push_back(std::move(*left++));
@@ -48,10 +42,6 @@ std::vector<typename iter_T::value_type> merge(const iter_T begin,
     // we dont know whitch one it is, but one is empty
     buffer.insert(buffer.end(), std::make_move_iterator(left), std::make_move_iterator(middle));
     buffer.insert(buffer.end(), std::make_move_iterator(right), std::make_move_iterator(end));
-
-    std::cout << "MERGE final buffer: ";
-    print_range(buffer.begin(), buffer.end());
-    std::cout << std::endl;
 
     return buffer;
 }

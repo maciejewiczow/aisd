@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-template<typename iter_T>
+template <typename iter_T>
 std::vector<typename iter_T::value_type>
     sort_quadratic_values(iter_T begin, iter_T end, double a, double b, double c) {
     using value_T = typename iter_T::value_type;
@@ -37,7 +37,8 @@ std::vector<typename iter_T::value_type>
 
     // find
     iter_T peak_position{begin};
-    while (*peak_position <= peak && peak_position != end) ++peak_position;
+    while (*peak_position <= peak && peak_position != end)
+        ++peak_position;
 
     iter_T copying_begin, copying_end;
     std::reverse_iterator<iter_T> copying_rbegin, copying_rend;
@@ -124,8 +125,10 @@ void split_string(const std::string& source,
     while (start < end) {
         auto match_end = std::find_first_of(start, end, delim_arr, delim_arr + 1);
 
-        dest.emplace_back(source_view.substr(
-            std::distance(source_view.cbegin(), start), std::distance(start, match_end)));
+        auto match = source_view.substr(
+            std::distance(source_view.cbegin(), start), std::distance(start, match_end));
+
+        if (match.size() > 0) dest.push_back(match);
 
         if (match_end == end) break;
         start = std::next(match_end);
@@ -157,10 +160,9 @@ int mainZaj8() {
     std::vector<double> args{
         -3.0, -2.2, -2.0, -1.8, -1.6, -1.0, -0.7, -0.4, 0.0, 0.4, 0.8, 1.0, 1.5, 2.0, 2.3};
 
-    auto result = sort_quadratic_values(args.rbegin(), args.rend(), 1, -1, 0);
+    auto result = sort_quadratic_values(args.begin(), args.end(), 1, -1, 0);
 
     std::vector<Record> records;
-
     std::ifstream rec_file{"records.csv"};
 
     if (!rec_file) {
@@ -172,7 +174,7 @@ int mainZaj8() {
 
     rec_file.close();
 
-    std::partial_sort(records.begin(),
+    std::nth_element(records.begin(),
         records.begin() + 1000,
         records.end(),
         [](const Record& a, const Record& b) { return a.amount > b.amount; });
