@@ -181,6 +181,8 @@
   <ItemGroup>
     <Text Include="data\data3.txt" />
     <Text Include="data\lista.txt" />
+    <Text Include="graf_przechodzenie.txt" />
+    <Text Include="kruskalgraf.txt" />
     <Text Include="test_graf.txt" />
   </ItemGroup>
   <ItemGroup>

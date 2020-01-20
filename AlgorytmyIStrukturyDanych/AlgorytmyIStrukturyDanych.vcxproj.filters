@@ -91,6 +91,12 @@
     <Text Include="test_graf.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="graf_przechodzenie.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="kruskalgraf.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <None Include="records.csv">
